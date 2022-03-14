@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import  {React, useState, useEffect} from 'react';
 import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -76,23 +76,7 @@ export default function PostPage() {
     return <div >
         <input onChange={evt => setSearchText(evt.target.value)} type="search" placeholder='search by title' style={{ margin: '20px' }}></input>
 
-        <Table   striped bordered hover
-        style={{backgroundImage: `linear-gradient(
-            to right,
-            #ffff00,
-            #f8ea47,
-            #f0d465,
-            #f0d465,
-            #e7bf7c,
-            #ddaa8f,
-            #d095a1,
-            #c280b2,
-            #b26cc2,
-            #9d56d2,
-            #8440e1,
-            #6028f0,
-            #0000ff
-          )`}}>
+        <Table   striped bordered hover>
             <thead>
                 <tr>
 

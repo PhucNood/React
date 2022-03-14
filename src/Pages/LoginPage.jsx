@@ -1,35 +1,87 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import axios  from 'axios';
+export default function LoginPage() {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [emailError, setEmailError] = useState();
+  const [passwordError, setPasswordError] = useState();
 
-const LoginPage = () => {
-    const validEmail =email=>
-      String(email).toLowerCase()
-        .match(' /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/')
-        ? "" : "Invalid email";
-    
-    const [details, setDetails] = useState({ email: "", password: "" });
-    
+ 
 
-    const handeSubmit = (evt) => {
-        evt.preventDefault();
-        console.log(details);
+  function onEmailChange(emailInput) {
+    setEmail(emailInput);
 
+    if (emailInput === '' || emailInput === undefined) {
+      setEmailError('Required');
+      return false;
+    } else if (
+      !String(emailInput)
+        .toLowerCase()
+        .match(/^[a-zA-Z0-9]+\@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/g)
+    ) {
+      setEmailError('Must be a valid email');
+      return false;
+    } else {
+      setEmailError('');
+      return true;
     }
+  }
 
-    return <div >
-        <form className="form" action="" onSubmit={handeSubmit}>
-            <div style={{ margin: '20px' }}>
-               
-                <input className="form" type="email" name="email" id="email" placeholder="Email" />
-            </div >
-            <div style={{ margin: '20px' }}>
-               
-                <input type="password" name="password" id="password" placeholder="Password"  />
-            </div>
-            <div style={{ margin: '20px' }}>
-                <input type="submit" className="btn btn-primary" value="Submit" />
-            </div>
-        </form>
+  function onPasswordChange(passwordInput) {
+    setPassword(passwordInput);
+
+    if (passwordInput === '' || password === undefined) {
+      setPasswordError('Required');
+      return false;
+    } else if (passwordInput.length < 8) {
+      setPasswordError('At least 8 characters');
+      return false;
+    } else {
+      setPasswordError('');
+      return true;
+    }
+  }
+
+  const navigatge = useNavigate();
+  function onSubmit() {
+   
+    if (onEmailChange(email) && onPasswordChange(password)) {
+        
+      axios({url:'https://60dff0ba6b689e001788c858.mockapi.io/token'
+        ,method:'GET'
+      }).then(response => {
+            localStorage.setItem('token',response.data.token);
+           
+            localStorage.setItem('userId',response.data.userId);
+            console.log(localStorage.getItem('userId'));
+            axios.defaults.headers.common['Authorization'] = response.data.token;
+            navigatge('/profile');
+                    window.location.reload();
+      },[])
+        
+    }
+  }
+
+  return (
+    <div>
+      <input
+        value={email}
+        onChange={(e) => onEmailChange(e.target.value)}
+        type="text"
+        placeholder="Email"
+      />
+      <br />
+      {emailError && <div style={{ color: 'red' }}>{emailError}</div>}
+      <input
+        value={password}
+        onChange={(e) => onPasswordChange(e.target.value)}
+        type="password"
+        placeholder="Pasword"
+      />
+      {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>}
+      <br />
+      <button className="btn btn-primary"onClick={onSubmit}>Submit</button>
     </div>
+  );
 }
-
-export default LoginPage;

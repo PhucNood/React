@@ -4,13 +4,21 @@ import PostPage from './Pages/PostPage';
 import LoginPage from "./Pages/LoginPage";
 import ProfilePage from "./Pages/Profilepage";
 import PostDetailPage from "./Pages/PostDetailPage";
-import { Nav, NavProps, Navbar,Container } from "react-bootstrap";
+import { Nav, Navbar,Container } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from "react";
 
 import { BrowserRouter, Routes, Route, } from "react-router-dom";
 
 function App() {
+  const token = localStorage.getItem('token')
+ 
+  function onLogoutClicked() {
+    localStorage.setItem('token', '');
+    localStorage.setItem('userId', '');
+    window.location.reload();
+  }
+ 
 
   const routes = [{
     path: '/',
@@ -36,13 +44,15 @@ function App() {
 
   return (
     <BrowserRouter >
-      <Navbar bg="dark" variant="success">
+      <Navbar bg="dark" variant="dark">
     <Container >
     <Navbar.Brand as={Link} to="/">Home</Navbar.Brand>
     <Nav className="me-auto">
       <Nav.Link as={Link} to="/posts">Post</Nav.Link>
       <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
-      <Nav.Link as={Link} to="/login">login</Nav.Link>
+    {!token ?<Nav.Link as={Link} to="/login">login</Nav.Link>
+     :  <Nav.Link onClick={onLogoutClicked}>Log out</Nav.Link>
+  } 
     </Nav>
     </Container>
   </Navbar>

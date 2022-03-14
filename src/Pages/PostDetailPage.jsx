@@ -1,4 +1,4 @@
-import {React,useState,useEffect} from "react";
+import React,{useState,useEffect} from "react";
 import axios from 'axios';
 import { useParams } from "react-router-dom"
 export default function PostDetailPage(){
@@ -6,15 +6,13 @@ export default function PostDetailPage(){
   const [data, setData] = useState({});
   
     useEffect(() => {
-      axios({url:`https://jsonplaceholder.typicode.com/posts/${postId}`,headers:'đâsdasd'}).then(function (response) {                         
+      axios.get(`https://jsonplaceholder.typicode.com/posts/${postId}`).then(function (response) {                         
           setData(response.data)
-          console.log(response.headers)
-          axios.defaults.headers.common['Authorization'] = response.data.id
       }, []).catch(error => {
           console.log(error);
       });
 
-  },[])
+  },[postId]);
 
     return <div>
        ID: {data.id}<br />
