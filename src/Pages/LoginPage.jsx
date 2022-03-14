@@ -18,7 +18,7 @@ export default function LoginPage() {
     } else if (
       !String(emailInput)
         .toLowerCase()
-        .match(/^[a-zA-Z0-9]+\@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/g)
+        .match(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/g)
     ) {
       setEmailError('Must be a valid email');
       return false;
