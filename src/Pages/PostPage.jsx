@@ -22,7 +22,7 @@ export default function PostPage() {
     function handleRemove(evt) {
         evt.preventDefault();
 
-        setPosts(() => posts.filter(post => post.id != evt.target.value));
+        setPosts(() => posts.filter(post => post.id !== evt.target.value));
        
     }
 
@@ -61,6 +61,7 @@ export default function PostPage() {
                     return a.id - b.id;
                 })
                 break;
+                default:break;
         }
 
 
