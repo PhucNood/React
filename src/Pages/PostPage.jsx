@@ -2,7 +2,7 @@ import  React, {useState, useEffect} from 'react';
 import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import {IoTrash,IoInformationCircle} from 'react-icons/io5'
+
 
 
 export default function PostPage() {
@@ -22,7 +22,7 @@ export default function PostPage() {
     function handleRemove(evt) {
         evt.preventDefault();
 
-        setPosts(() => posts.filter(post => post.id !== evt.target.value));
+        setPosts(() => posts.filter(post => post.id != evt.target.value));
        
     }
 
@@ -93,12 +93,12 @@ export default function PostPage() {
                         <td>{data.title}</td>
                         <td>
                             <Link className="btn btn-primary" to={`/postdetail/${data.id}`}>
-                            <i><IoInformationCircle></IoInformationCircle></i>
+                           
                                 View detail
                             </Link>
 
                             <button className="btn btn-danger" value={data.id} onClick={handleRemove} style={{ marginLeft: '20px' }}>
-                                <i><IoTrash></IoTrash></i>
+                                
                                 Remove</button>
                         </td>
 
